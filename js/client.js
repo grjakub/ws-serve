@@ -5,7 +5,8 @@
             div: {"class": "pop-up"},
             input: {"type":"checkbox", "name" :"onoffswitch", "class":"onoffswitch-checkbox", "id":"myonoffswitch" },
             label: {"class":"onoffswitch-label", "for":"myonoffswitch"},
-            spanOne: {"class":"onoffswitch-inner"}
+            spanOne: {"class":"onoffswitch-inner"},
+            spanTwo: {"class": "offswitch"}
         }
     },
     globSetValue = {};
@@ -52,8 +53,14 @@ function addPopup(obj) {
         setAttr(buttonInput, optionObj.popup.input );
         setAttr(buttonLabel, optionObj.popup.label );
         setAttr(buttonSpanOne, optionObj.popup.spanOne );
+        setAttr(buttonSpanTwo, optionObj.popup.spanTwo );
 
-        buttonLabel.appendChild(buttonSpanOne);
+        if (takeAttr === "off") {
+            buttonLabel.appendChild(buttonSpanTwo);
+        } else {
+            buttonLabel.appendChild(buttonSpanOne);
+        }
+
         popupContainer.appendChild(buttonInput);
         popupContainer.appendChild(buttonLabel);
         imgContainer.setAttribute('src', obj.getAttribute('src'))
@@ -65,6 +72,16 @@ function addPopup(obj) {
         
 
         buttonSpanOne.onclick = function(){
+            sock.send(JSON.stringify(globSetValue));
+
+            sock.onmessage = function(event) {
+                let checkOption = JSON.parse(event.data);   
+                globSetValue.childStatus = checkOption.childStatus; // update state
+                changeStatus(checkOption.childStatus, checkOption.childNumber);
+            }
+        }
+
+        buttonSpanTwo.onclick = function(){
             sock.send(JSON.stringify(globSetValue));
 
             sock.onmessage = function(event) {
