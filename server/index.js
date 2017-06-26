@@ -4,12 +4,16 @@ const server = require('ws').Server,
 
 serv.on('connection', function(ws) {
       ws.on('message', function(message) {
-            console.log(message);
-            ws.send(message);
-            if(message == "off"){
-                  console.log('change img');
-                  ws.send(message)
+            let checkStatus = JSON.parse(message);
+            console.log(checkStatus + '<--- 1');
+      
+            if( checkStatus.childStatus === "on" ) {
+                  checkStatus.childStatus = "off"
+            } else {
+                 checkStatus.childStatus = "on" 
             }
+            console.log(checkStatus + '<--- 2');
+            ws.send(JSON.stringify(checkStatus));
       })
 
       ws.on('close', function(){
