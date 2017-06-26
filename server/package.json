@@ -1,0 +1,21 @@
+{
+  "name": "ws-dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grjakub/ws-serve.git"
+  },
+  "author": "Kuba",
+  "license": "ISC",
+  "dependencies": {
+    "websocket": "^1.0.24"
+  },
+  "devDependencies": {
+    "ws": "^3.0.0"
+  }
+}
