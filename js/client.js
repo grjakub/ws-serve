@@ -20,9 +20,8 @@ function clickHandler(e){
         if (evt.srcElement)  elem = evt.srcElement;
         else if (evt.target) elem = evt.target;
         myIndex = findIndex(elem, imgContainer);// check index
-     
+    
         addPopup(elem, myIndex) ;// create new popup
-
         globSetValue.childNumber = myIndex; // store index to global obj
 
 }
@@ -63,27 +62,18 @@ function addPopup(obj) {
         popupContainer.appendChild(imgContainer);
 
         globSetValue.childStatus = takeAttr; // store status off/on
+        
 
         buttonSpanOne.onclick = function(){
-            console.log(takeAttr + ' stat');
-            sock.send(JSON.stringify(globSetValue)); 
-            sock.onmessage = function(event)
-            {
-                let checkOption = JSON.parse(event.data);   
+            sock.send(JSON.stringify(globSetValue));
 
-                if(takeAttr === "off"){
-                    console.log('zmiana na on');
-                    takeAttr = "on"
-                } else {
-                    console.log('zmiana na off');
-                   takeAttr = "off"
-                }
-                console.log(checkOption.childStatus + '<-- status');
-                console.log(checkOption.childNumber + '<-- number');
-                    changeStatus(takeAttr, checkOption.childNumber);
+            sock.onmessage = function(event) {
+                let checkOption = JSON.parse(event.data);   
+                globSetValue.childStatus = checkOption.childStatus; // update state
+                changeStatus(checkOption.childStatus, checkOption.childNumber);
             }
         }
-
+        
         return  document.querySelector('body').appendChild(popupContainer);
 }
 
@@ -95,16 +85,13 @@ function changeStatus(status, child) {
         on:'./img/up.png',
         off: './img/down.png'
     }
-    console.log(parentContainer);
-    console.log('log');
-    if (status ==="on") {
-        console.log('off');
+   
+    if (status ==="off") {
         parentContainer.setAttribute('data-status', "off");
          childElem.setAttribute('src', imgObj.off)
     } else {
-        console.log('on');
         childElem.setAttribute('src', imgObj.on)
-         parentContainer.setAttribute('data-status', "on");
+        parentContainer.setAttribute('data-status', "on");
     }
 }
 
