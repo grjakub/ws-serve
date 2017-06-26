@@ -1,15 +1,11 @@
  let sock= new WebSocket("ws://localhost:5001"),
                 info = document.getElementById('info');
 
-           sock.onmessage = function(event){
-                console.log(event.data)
-                info.innerHTML = event.data;
-            }
 
-            document.querySelector('button').onclick = function() {
+            /*document.querySelector('button').onclick = function() {
                 const text = document.getElementById('text').value;
                 sock.send(text);
-            }
+            }*/
 let infoimg = document.querySelector('.container'),
     optionObj = {
         popup: {
@@ -19,6 +15,8 @@ let infoimg = document.querySelector('.container'),
             spanOne: {"class":"onoffswitch-inner"}
         }
     }
+
+let globSetValue = {};
 
 function clickHandler(e){
         checkPopup();
@@ -31,10 +29,17 @@ function clickHandler(e){
         myIndex = findIndex(elem, imgContainer);
      
         addPopup(elem, myIndex) ;
+
+        globSetValue.childNumber = myIndex;
+        sock.send(globSetValue);
+
+        sock.onmessage = function(event){
+                console.log(event.data)
+            }
 }
 
 function findIndex( elem, list ) {
-    var i, 
+    let i, 
     len = list.length;
 
     for(i=0; i<len; i++) {
@@ -45,13 +50,14 @@ function findIndex( elem, list ) {
     return -1;
 }
 
-function addPopup(obj, index) {
+function addPopup(obj) {
     let popupContainer = document.createElement('div');
         buttonInput =  document.createElement('input'),
         buttonLabel = document.createElement('label'),
         buttonSpanOne = document.createElement('span'),
         buttonSpanTwo = document.createElement('span');
-        imgContainer = document.createElement('img');
+        imgContainer = document.createElement('img'),
+        takeAttr = obj.parentNode.getAttribute('data-status');
 
         setAttr(popupContainer, optionObj.popup.div );
         setAttr(buttonInput, optionObj.popup.input );
@@ -62,11 +68,12 @@ function addPopup(obj, index) {
         popupContainer.appendChild(buttonInput);
         popupContainer.appendChild(buttonLabel);
         imgContainer.setAttribute('src', obj.getAttribute('src'))
-        imgContainer.setAttribute('height', 225)
+        imgContainer.setAttribute('height', 225);
+        buttonSpanOne.setAttribute('data-status', takeAttr);
         popupContainer.appendChild(imgContainer);
-        let clickCheck = document.querySelector(".onoffswitch-inner");
-        
-         return  document.querySelector('body').appendChild(popupContainer);
+        globSetValue.childStatus = takeAttr;
+
+        return  document.querySelector('body').appendChild(popupContainer);
 }
 
 
@@ -82,12 +89,11 @@ function checkPopup(){
 }
 
 function setSatus(elem) {
+    let spanTitle = document.querySelector
     let imgObj = {
         on:'./img/up.png',
         off: './img/down.png'
     }
-
-    sock.send(cos)
 }
 
 

@@ -4,7 +4,7 @@ const server = require('ws').Server,
 
 serv.on('connection', function(ws) {
       ws.on('message', function(message) {
-            console.log('recive ');
+            console.log(message);
             ws.send(message);
             if(message == "off"){
                   console.log('change img');
