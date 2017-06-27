@@ -1,7 +1,6 @@
 const server = require('ws').Server,
       serv = new server({port: 5001});
 
-
 serv.on('connection', function(ws) {
       ws.on('message', function(message) {
             var checkStatus = JSON.parse(message);
