@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -12,9 +12,6 @@
   },
   "author": "Kuba",
   "license": "ISC",
-  "dependencies": {
-    "websocket": "^1.0.24"
-  },
   "devDependencies": {
     "ws": "^3.0.0"
   }
