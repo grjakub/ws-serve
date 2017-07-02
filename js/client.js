@@ -1,6 +1,12 @@
- let sock= new WebSocket("ws://localhost:5001"),
+ (function(){
+let sock= new WebSocket("ws://localhost:5001"),
     infoimg = document.querySelector('.container'),
     optionObj = {
+        startContainer: {
+           div: {"class": "img-container", "data-status":"on"},
+            imgContainerOn:{"class": "set-img", "src":"./img/up.png", "height":"225"},
+            imgContainerOff:{"class": "set-img", "src":"./img/down.png", "height":"225"}
+        },
         popup: {
             div: {"class": "pop-up"},
             input: {"type":"checkbox", "name" :"onoffswitch", "class":"onoffswitch-checkbox", "id":"myonoffswitch" },
@@ -10,6 +16,26 @@
         }
     },
     globSetValue = {};
+
+function buildContainer(){
+    for (let i = 0; i<5; i++) {
+        let container = document.createElement('div'),
+        imgContainer = document.createElement('img');
+        container.appendChild(imgContainer);
+
+        document.querySelector('.container').appendChild(container);
+        setAttr(container, optionObj.startContainer.div );
+
+        if(i%2 === 0) {
+            setAttr(imgContainer, optionObj.startContainer.imgContainerOn );
+        } else {
+            setAttr(imgContainer, optionObj.startContainer.imgContainerOff );
+        }
+    }
+
+       
+
+}
 
 function clickHandler(e){
         checkPopup(); // clear popup
@@ -130,5 +156,11 @@ function setAttr(el, options) {
         el.setAttribute(attr, options[attr]);
     });
 }
+
+////////////////////////////
+buildContainer(); // build 
+ })()
+ 
+ 
 
 
